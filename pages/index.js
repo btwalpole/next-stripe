@@ -1,11 +1,38 @@
+import { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import products from "../products.json";
 import { initiateCheckout } from "../lib/payments";
 
+const defaultCart = {
+  products: {}, //easier to icompare one object to another than with arrays
+};
+
 export default function Home() {
-  console.log("API_KEY", process.env.NEXT_PUBLIC_STRIPE_API_KEY);
+  const [cart, updateCart] = useState(defaultCart);
+
+  console.log("cart", cart);
+
+  function addToCart({ id } = {}) {
+    updateCart((prev) => {
+      let cartState = { ...prev }; //create copy of prev state
+
+      if (cartState.products[id]) {
+        console.log("product with id already in cart: ", id);
+        cartState.products[id].quantity = cartState.products[id].quantity + 1;
+      } else {
+        console.log("product with id not yet in cart: ", id);
+        cartState.products[id] = {
+          id,
+          quantity: 1,
+        };
+      }
+
+      return cartState;
+    });
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -19,6 +46,14 @@ export default function Home() {
 
         <p className={styles.description}>
           The best space jellyfish swag on the web!
+        </p>
+
+        <p className={styles.description}>
+          <strong>Items: 2</strong>
+          <br />
+          <strong>Total Cost: £16</strong>
+          <br />
+          <button className={styles.button}>Check Out</button>
         </p>
 
         <ul className={styles.grid}>
@@ -41,15 +76,19 @@ export default function Home() {
                 <p>
                   <button
                     className={styles.button}
-                    onClick={() =>
-                      initiateCheckout({
+                    onClick={
+                      () =>
+                        addToCart({
+                          id,
+                        })
+                      /* initiateCheckout({
                         lineItems: [
                           {
                             price: id,
                             quantity: 1,
                           },
                         ],
-                      })
+                      }) */
                     }
                   >
                     Buy Now!
