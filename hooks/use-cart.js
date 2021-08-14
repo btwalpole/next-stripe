@@ -36,7 +36,8 @@ export default function useCart() {
 
   function addToCart({ id } = {}) {
     updateCart((prev) => {
-      let cartState = { ...prev }; //create copy of prev state
+      //let cartState = { ...prev }; //create copy of prev state
+      let cartState = JSON.parse(JSON.stringify(prev));
 
       if (cartState.products[id]) {
         console.log("product with id already in cart: ", id);
