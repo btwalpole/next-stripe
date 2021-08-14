@@ -12,7 +12,30 @@ const defaultCart = {
 export default function Home() {
   const [cart, updateCart] = useState(defaultCart);
 
-  console.log("cart", cart);
+  //create array from current cart state, map over it and return
+  //each item + it's price (taken from the products.json)
+  const cartItems = Object.keys(cart.products).map((key) => {
+    const product = products.find(({ id }) => `${id}` === `${key}`);
+    return {
+      ...cart.products[key],
+      pricePerItem: product.price,
+    };
+  });
+
+  const subTotal = cartItems.reduce(
+    (accumulator, { pricePerItem, quantity }) => {
+      return accumulator + pricePerItem * quantity;
+    },
+    0
+  );
+
+  const totalItems = cartItems.reduce((accumulator, { quantity }) => {
+    return accumulator + quantity;
+  }, 0);
+
+  console.log("subTotal: ", subTotal);
+
+  console.log("cartItems", cartItems);
 
   function addToCart({ id } = {}) {
     updateCart((prev) => {
@@ -20,7 +43,7 @@ export default function Home() {
 
       if (cartState.products[id]) {
         console.log("product with id already in cart: ", id);
-        cartState.products[id].quantity = cartState.products[id].quantity + 1;
+        cartState.products[id].quantity++;
       } else {
         console.log("product with id not yet in cart: ", id);
         cartState.products[id] = {
@@ -30,6 +53,17 @@ export default function Home() {
       }
 
       return cartState;
+    });
+  }
+
+  function checkout() {
+    initiateCheckout({
+      lineItems: cartItems.map((item) => {
+        return {
+          price: item.id,
+          quantity: item.quantity,
+        };
+      }),
     });
   }
 
@@ -49,11 +83,13 @@ export default function Home() {
         </p>
 
         <p className={styles.description}>
-          <strong>Items: 2</strong>
+          <strong>Items: {totalItems}</strong>
           <br />
-          <strong>Total Cost: £16</strong>
+          <strong>Total Cost: £{subTotal}</strong>
           <br />
-          <button className={styles.button}>Check Out</button>
+          <button className={styles.button} onClick={checkout}>
+            Check Out
+          </button>
         </p>
 
         <ul className={styles.grid}>
@@ -76,22 +112,13 @@ export default function Home() {
                 <p>
                   <button
                     className={styles.button}
-                    onClick={
-                      () =>
-                        addToCart({
-                          id,
-                        })
-                      /* initiateCheckout({
-                        lineItems: [
-                          {
-                            price: id,
-                            quantity: 1,
-                          },
-                        ],
-                      }) */
-                    }
+                    onClick={() => {
+                      addToCart({
+                        id,
+                      });
+                    }}
                   >
-                    Buy Now!
+                    Add To Cart
                   </button>
                 </p>
               </li>
