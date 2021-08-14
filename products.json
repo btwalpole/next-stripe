@@ -1,0 +1,23 @@
+[
+    {
+        "id": "price_1IYEqBBn6ujpoUXKMzLYBGCA",
+        "title": "Afternoon Tea",
+        "description": "blah blh ablah",
+        "image": "/images/afternoontea.jpeg",
+        "price": 8.00
+    },
+    {
+        "id": "price_1IYExZBn6ujpoUXKeBTpQIKY",
+        "title": "Cherry Blossom",
+        "description": "blah blh ablah",
+        "image": "/images/cherryBlossomBlush.jpeg",
+        "price": 8.00
+    },
+    {
+        "id": "price_1IYEx4Bn6ujpoUXKvk5ZEEcN",
+        "title": "Monet",
+        "description": "blah blh ablah",
+        "image": "/images/monet.jpeg",
+        "price": 8.00
+    }
+]

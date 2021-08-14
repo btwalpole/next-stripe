@@ -71,15 +71,17 @@
 
 .grid {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   flex-wrap: wrap;
-  max-width: 800px;
+  list-style: none;
+  max-width: 80em;
   margin-top: 3rem;
 }
 
 .card {
   margin: 1rem;
+  flex-basis: calc(50% - 2rem);
   padding: 1.5rem;
   text-align: left;
   color: inherit;
@@ -87,7 +89,13 @@
   border: 1px solid #eaeaea;
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
-  width: 45%;
+  width: 85%;
+}
+
+@media (min-width: 960px) {
+  .card {
+    flex-basis: calc(33.33% - 2rem);
+  }
 }
 
 .card:hover,
@@ -97,7 +105,7 @@
   border-color: #0070f3;
 }
 
-.card h2 {
+.card h3 {
   margin: 0 0 1rem 0;
   font-size: 1.5rem;
 }
@@ -106,6 +114,10 @@
   margin: 0;
   font-size: 1.25rem;
   line-height: 1.5;
+}
+
+.nextImage {
+  max-width: 100%;
 }
 
 .logo {
