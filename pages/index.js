@@ -33,7 +33,7 @@ export default function Home() {
                     src={image}
                     alt={title}
                   />
-                  <h3>{title} &rarr;</h3>
+                  <h3>{title}</h3>
                   <p>£{price}</p>
                   <p>{description}</p>
                 </a>
