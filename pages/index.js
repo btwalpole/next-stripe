@@ -3,6 +3,7 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import products from "../products.json";
 import { useCart } from "../hooks/use-cart";
+import Link from "next/link";
 
 export default function Home() {
   const { subTotal, totalItems, addToCart, checkout } = useCart();
@@ -27,18 +28,20 @@ export default function Home() {
             const { id, image, title, description, price } = product;
             return (
               <li key={id} className={styles.card}>
-                <a href="https://nextjs.org/docs">
-                  <Image
-                    layout="responsive"
-                    width={1600}
-                    height={1200}
-                    src={image}
-                    alt={title}
-                  />
-                  <h3>{title}</h3>
-                  <p>£{price}</p>
-                  <p>{description}</p>
-                </a>
+                <Link href={`/products/${id}`}>
+                  <a>
+                    <Image
+                      layout="responsive"
+                      width={1600}
+                      height={1200}
+                      src={image}
+                      alt={title}
+                    />
+                    <h3>{title}</h3>
+                    <p>£{price}</p>
+                    <p>{description}</p>
+                  </a>
+                </Link>
                 <p>
                   <button
                     className={styles.button}

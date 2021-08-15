@@ -51,14 +51,25 @@ export function useCartState() {
       let cartState = JSON.parse(JSON.stringify(prev)); //deep clone
 
       if (cartState.products[id]) {
-        console.log("product with id already in cart: ", id);
         cartState.products[id].quantity++;
       } else {
-        console.log("product with id not yet in cart: ", id);
         cartState.products[id] = {
           id,
           quantity: 1,
         };
+      }
+
+      return cartState;
+    });
+  }
+
+  function updateItem({ id, quantity }) {
+    updateCart((prev) => {
+      //let cartState = { ...prev }; //create copy of prev state
+      let cartState = JSON.parse(JSON.stringify(prev)); //deep clone
+
+      if (cartState.products[id]) {
+        cartState.products[id].quantity = quantity;
       }
 
       return cartState;
@@ -78,10 +89,12 @@ export function useCartState() {
 
   return {
     cart,
+    cartItems,
     updateCart,
     subTotal,
     totalItems,
     addToCart,
+    updateItem,
     checkout,
   };
 }
