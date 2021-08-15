@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, createContext, useContext, useEffect } from "react";
 import products from "../products.json";
 import { initiateCheckout } from "../lib/payments";
 
@@ -6,11 +6,26 @@ const defaultCart = {
   products: {}, //easier to icompare one object to another than with arrays
 };
 
-export default function useCart() {
+export const CartContext = createContext();
+
+export function useCartState() {
   const [cart, updateCart] = useState(defaultCart);
 
+  useEffect(() => {
+    const stateFromStorage = window.localStorage.getItem("spacejelly_cart");
+    const data = stateFromStorage && JSON.parse(stateFromStorage);
+    if (data) {
+      updateCart(data);
+    }
+  }, []);
+
+  useEffect(() => {
+    const data = JSON.stringify(cart);
+    window.localStorage.setItem("spacejelly_cart", data);
+  }, [cart]);
+
   //create array from current cart state, map over it and return
-  //each item + it's price (taken from the products.json)
+  //each item and it's price (taken from the products.json)
   const cartItems = Object.keys(cart.products).map((key) => {
     const product = products.find(({ id }) => `${id}` === `${key}`);
     return {
@@ -30,14 +45,10 @@ export default function useCart() {
     return accumulator + quantity;
   }, 0);
 
-  console.log("subTotal: ", subTotal);
-
-  console.log("cartItems", cartItems);
-
   function addToCart({ id } = {}) {
     updateCart((prev) => {
       //let cartState = { ...prev }; //create copy of prev state
-      let cartState = JSON.parse(JSON.stringify(prev));
+      let cartState = JSON.parse(JSON.stringify(prev)); //deep clone
 
       if (cartState.products[id]) {
         console.log("product with id already in cart: ", id);
@@ -73,4 +84,10 @@ export default function useCart() {
     addToCart,
     checkout,
   };
+}
+
+//hook for using cart context
+export function useCart() {
+  const cart = useContext(CartContext);
+  return cart;
 }

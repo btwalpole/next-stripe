@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import products from "../products.json";
-import useCart from "../hooks/use-cart";
+import { useCart } from "../hooks/use-cart";
 
 export default function Home() {
   const { subTotal, totalItems, addToCart, checkout } = useCart();
@@ -20,16 +20,6 @@ export default function Home() {
 
         <p className={styles.description}>
           The best space jellyfish swag on the web!
-        </p>
-
-        <p className={styles.description}>
-          <strong>Items: {totalItems}</strong>
-          <br />
-          <strong>Total Cost: £{subTotal}</strong>
-          <br />
-          <button className={styles.button} onClick={checkout}>
-            Check Out
-          </button>
         </p>
 
         <ul className={styles.grid}>
