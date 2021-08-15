@@ -2,6 +2,7 @@ import Head from "next/head";
 import { FaShoppingCart } from "react-icons/fa";
 import styles from "../styles/Cart.module.css";
 import { useCart } from "../hooks/use-cart";
+import Image from "next/image";
 
 import Table from "../components/Table";
 import products from "../products.json";
@@ -102,7 +103,7 @@ export default function Cart() {
           rel="noopener noreferrer"
         >
           Powered by{" "}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
+          <Image src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
         </a>
       </footer>
     </div>
